@@ -1,14 +1,15 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Cliente;
-import com.example.demo.repository.Repository;
+import com.example.demo.models.ModeloCliente;
+import com.example.demo.repository.RepositoryCliente;
+import org.aspectj.apache.bcel.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class Controller {
+public class ControllerCliente {
 
     @Autowired
     private Repository repo;
@@ -20,21 +21,21 @@ public class Controller {
     }
 
     @GetMapping("clientes")
-    public List<Cliente> getClientes(){
+    public List<ModeloCliente> getClientes(){
         return  repo.findAll();
     }
 
     @PostMapping("alta")
-    public String post(@RequestBody Cliente cliente){
+    public String post(@RequestBody ModeloCliente cliente){
         repo.save(cliente);
         return "Guardado";
     }
 
     @PutMapping("modificar/{id}")
-    public String update(@PathVariable Long id, @RequestBody Cliente cliente){
-        Cliente updateCliente = repo.findById(id).get();
+    public String update(@PathVariable Long id, @RequestBody ModeloCliente cliente){
+        ModeloCliente updateCliente = repo.findById(id).get();
         updateCliente.setNombre(cliente.getNombre());
-        updateCliente.setEmail(cliente.getEmail());
+        updateCliente.setApellido(cliente.getApellido());
         repo.save(updateCliente);
         return "Modificado";
     }
@@ -42,7 +43,7 @@ public class Controller {
     @DeleteMapping("baja/{id}")
     public String delete(@PathVariable Long id){
 
-        Cliente deleteCliente = repo.findById(id).get();
+        ModeloCliente deleteCliente = repo.findById(id).get();
         repo.delete(deleteCliente);
         return "Eliminado";
     }

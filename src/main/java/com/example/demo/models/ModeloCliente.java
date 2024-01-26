@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-public class Cliente {
+public class ModeloCliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +17,14 @@ public class Cliente {
     @Getter
     @Setter
     private String nombre;
-    @Column(name = "correo")
+
+    @Column
     @Getter
     @Setter
-    private String email;
+    private String apellido;
+
+    @Column(name = "doc")
+    @Getter
+    @Setter
+    private String documento;
 }
