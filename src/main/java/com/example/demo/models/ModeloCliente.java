@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "cliente")
 public class ModeloCliente {
 
     @Id
@@ -23,7 +24,7 @@ public class ModeloCliente {
     @Setter
     private String apellido;
 
-    @Column(name = "doc")
+    @Column
     @Getter
     @Setter
     private String documento;

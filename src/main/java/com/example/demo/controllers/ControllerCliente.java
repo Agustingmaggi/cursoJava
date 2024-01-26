@@ -12,7 +12,7 @@ import java.util.List;
 public class ControllerCliente {
 
     @Autowired
-    private Repository repo;
+    private RepositoryCliente repo;
 
 
     @GetMapping
