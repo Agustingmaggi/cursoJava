@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "cliente")
 public class ModeloCliente {
@@ -28,4 +30,9 @@ public class ModeloCliente {
     @Getter
     @Setter
     private String documento;
+
+    @Column
+    @Getter
+    @Setter
+    private LocalDate fecha_nacimiento;
 }

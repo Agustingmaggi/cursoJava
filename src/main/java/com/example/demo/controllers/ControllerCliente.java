@@ -14,6 +14,9 @@ public class ControllerCliente {
     @Autowired
     private RepositoryCliente repo;
 
+    @Autowired
+    private ServiceCliente serviceCliente;
+
 
     @GetMapping
     public  String index(){
@@ -48,6 +51,10 @@ public class ControllerCliente {
         return "Eliminado";
     }
 
+    @GetMapping("/{id}/info")
+    public ClienteInfo getClienteInfo(@PathVariable Long id) {
+        return serviceCliente.obtenerInfoCliente(id);
+    }
 
 
 }
