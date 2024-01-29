@@ -54,7 +54,7 @@ public class ControllerCliente {
 
     @GetMapping("/{id}/info")
     public ClienteInfo getClienteInfo(@PathVariable Long id) {
-        return serviceCliente.obtenerInfoCliente(id);
+        return ServiceCliente.obtenerInfoCliente(id);
     }
 
 
