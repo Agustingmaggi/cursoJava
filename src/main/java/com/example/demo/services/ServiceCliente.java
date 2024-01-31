@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+@Service
 public class ServiceCliente {
     @Autowired
     private RepositoryCliente repository;
@@ -18,7 +20,7 @@ public class ServiceCliente {
         return repository.save(cliente);
     }
 
-    public ClienteInfo obtenerInfoCliente(Long id) {
+    public static <ClienteInfo> Object obtenerInfoCliente(Long id) {
         return null;
     }
 }

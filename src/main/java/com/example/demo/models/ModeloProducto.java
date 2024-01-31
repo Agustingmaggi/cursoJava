@@ -4,12 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Entity
-@Table(name = "cliente")
-public class ModeloCliente {
-
+@Table(name = "producto")
+public class ModeloProducto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -19,20 +16,22 @@ public class ModeloCliente {
     @Column
     @Getter
     @Setter
-    private String nombre;
+    private String descripcion;
 
     @Column
     @Getter
     @Setter
-    private String apellido;
+    private String codigo;
 
     @Column
     @Getter
     @Setter
-    private String documento;
+    private Long stock;
 
-    @Column(name = "fechaNacimiento")
+    @Column
     @Getter
     @Setter
-    private LocalDate fechaNacimiento;
+    private Long precio;
+
+
 }

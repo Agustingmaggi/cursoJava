@@ -3,7 +3,6 @@ package com.example.demo.controllers;
 import com.example.demo.models.ModeloCliente;
 import com.example.demo.repository.RepositoryCliente;
 import com.example.demo.services.ServiceCliente;
-import org.aspectj.apache.bcel.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +52,7 @@ public class ControllerCliente {
     }
 
     @GetMapping("/{id}/info")
-    public ClienteInfo getClienteInfo(@PathVariable Long id) {
+    public Object getClienteInfo(@PathVariable Long id) {
         return ServiceCliente.obtenerInfoCliente(id);
     }
 
