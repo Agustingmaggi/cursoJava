@@ -31,8 +31,12 @@ public class ModeloCliente {
     @Setter
     private String documento;
 
-    @Column(name = "fechaNacimiento")
+    @Column(name = "fecha_nacimiento")
     @Getter
     @Setter
-    private LocalDate fechaNacimiento;
+    private LocalDate fecha_nacimiento;
+
+    public LocalDate getFechaNacimiento() {
+        return fecha_nacimiento;
+    }
 }
