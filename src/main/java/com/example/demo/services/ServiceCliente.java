@@ -27,12 +27,18 @@ public class ServiceCliente {
         ModeloCliente cliente = repository.findById(id).orElse(null);
 
         if (cliente != null) {
-            ErrorResponse.ClienteInfo clienteInfo = new ErrorResponse.ClienteInfo(cliente, calcularEdad(cliente.getFechaNacimiento()));
-            return clienteInfo.toString(); // Convierte el objeto a una representación de cadena JSON.
+            ClienteInfo clienteInfo = new ClienteInfo(cliente, calcularEdad(cliente.getFechaNacimiento()));
+            return clienteInfo; // Devuelve un objeto ClienteInfo
         } else {
             return new ErrorResponse("Cliente no encontrado");
         }
     }
+
+    private int calcularEdad(LocalDate fechaNacimiento) {
+        LocalDate fechaActual = LocalDate.now();
+        return Period.between(fechaNacimiento, fechaActual).getYears();
+    }
+
     private static class ErrorResponse {
         private final String mensajeError;
 
@@ -43,9 +49,6 @@ public class ServiceCliente {
         public String getMensajeError() {
             return mensajeError;
         }
-    private int calcularEdad(LocalDate fechaNacimiento) {
-        LocalDate fechaActual = LocalDate.now();
-        return Period.between(fechaNacimiento, fechaActual).getYears();
     }
 
     public static class ClienteInfo {

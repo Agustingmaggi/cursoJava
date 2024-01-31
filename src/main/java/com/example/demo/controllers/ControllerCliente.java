@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/clientes") // Añadido para agrupar los endpoints relacionados con 'clientes'
 public class ControllerCliente {
 
     @Autowired
@@ -17,57 +18,52 @@ public class ControllerCliente {
     @Autowired
     private ServiceCliente serviceCliente;
 
-
     @GetMapping
-    public  String index(){
-        return "Conectado";
+    public List<ModeloCliente> getClientes() {
+        return repo.findAll();
     }
 
-    @GetMapping("clientes")
-    public List<ModeloCliente> getClientes(){
-        return  repo.findAll();
+    @PostMapping
+    public ModeloCliente postCliente(@RequestBody ModeloCliente cliente) {
+        return repo.save(cliente);
     }
 
-    @PostMapping("alta")
-    public String post(@RequestBody ModeloCliente cliente){
-        repo.save(cliente);
-        return "Guardado";
+    @PutMapping("/{id}")
+    public ModeloCliente updateCliente(@PathVariable Long id, @RequestBody ModeloCliente cliente) {
+        return repo.findById(id)
+                .map(clienteExistente -> {
+                    clienteExistente.setNombre(cliente.getNombre());
+                    clienteExistente.setApellido(cliente.getApellido());
+                    clienteExistente.setDocumento(cliente.getDocumento());
+                    clienteExistente.setFechaNacimiento(cliente.getFechaNacimiento());
+                    return repo.save(clienteExistente);
+                })
+                .orElseGet(() -> {
+                    cliente.setId(id);
+                    return repo.save(cliente);
+                });
     }
 
-    @PutMapping("modificar/{id}")
-    public String update(@PathVariable Long id, @RequestBody ModeloCliente cliente){
-        ModeloCliente updateCliente = repo.findById(id).get();
-        updateCliente.setNombre(cliente.getNombre());
-        updateCliente.setApellido(cliente.getApellido());
-        repo.save(updateCliente);
-        return "Modificado";
-    }
-
-    @DeleteMapping("baja/{id}")
-    public String delete(@PathVariable Long id){
-
-        ModeloCliente deleteCliente = repo.findById(id).get();
-        repo.delete(deleteCliente);
-        return "Eliminado";
+    @DeleteMapping("/{id}")
+    public void deleteCliente(@PathVariable Long id) {
+        repo.deleteById(id);
     }
 
     @GetMapping("/{id}/info")
     public Object getClienteInfo(@PathVariable Long id) {
-        ServiceCliente.ClienteInfo clienteInfo = serviceCliente.obtenerInfoCliente(id);
-
-        if (clienteInfo != null) {
-            // Crear un objeto JSON con la estructura deseada
+        Object response = serviceCliente.obtenerInfoCliente(id);
+        if (response instanceof ServiceCliente.ClienteInfo) {
+            ServiceCliente.ClienteInfo clienteInfo = (ServiceCliente.ClienteInfo) response;
             return new ClienteInfoResponse(
                     clienteInfo.getCliente().getNombre(),
                     clienteInfo.getCliente().getApellido(),
                     clienteInfo.getEdad()
             );
         } else {
-            return "Cliente no encontrado";
+            return response; // Esto podría ser un mensaje de error
         }
     }
 
-    // Clase para representar la estructura del JSON de respuesta
     private static class ClienteInfoResponse {
         private final String nombre;
         private final String apellido;
@@ -79,16 +75,9 @@ public class ControllerCliente {
             this.años = años;
         }
 
-        public String getNombre() {
-            return nombre;
-        }
-
-        public String getApellido() {
-            return apellido;
-        }
-
-        public int getAños() {
-            return años;
-        }
+        // Getters
+        public String getNombre() { return nombre; }
+        public String getApellido() { return apellido; }
+        public int getAños() { return años; }
     }
 }

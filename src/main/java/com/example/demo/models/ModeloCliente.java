@@ -39,4 +39,7 @@ public class ModeloCliente {
     public LocalDate getFechaNacimiento() {
         return fecha_nacimiento;
     }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    }
 }
