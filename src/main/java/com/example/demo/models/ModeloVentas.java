@@ -18,6 +18,11 @@ public class ModeloVentas {
     @Column
     @Getter
     @Setter
+    private String id_venta_unica;
+
+    @Column
+    @Getter
+    @Setter
     private Integer cliente_id;
 
     @Column
@@ -29,6 +34,11 @@ public class ModeloVentas {
     @Getter
     @Setter
     private String producto;
+
+    @Column
+    @Getter
+    @Setter
+    private Integer cantidad;
 
     @Column
     @Getter
