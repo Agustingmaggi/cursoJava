@@ -3,10 +3,13 @@ package com.example.demo.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.aspectj.weaver.ast.Var;
+
+import java.util.Date;
 
 @Entity
-@Table(name = "producto")
-public class ModeloProducto {
+@Table(name = "ventas")
+public class ModeloVentas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -16,20 +19,25 @@ public class ModeloProducto {
     @Column
     @Getter
     @Setter
-    private String descripcion;
+    private Integer cliente_id;
 
     @Column
     @Getter
     @Setter
-    private String codigo;
+    private Date creacion;
 
     @Column
     @Getter
     @Setter
-    private Long stock;
+    private String producto;
 
     @Column
     @Getter
     @Setter
-    private Double precio;
+    private Integer precio_producto;
+
+    @Column
+    @Getter
+    @Setter
+    private Integer precio_total_venta;
 }

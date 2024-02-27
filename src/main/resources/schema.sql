@@ -32,6 +32,7 @@ id INT PRIMARY KEY AUTO_INCREMENT,
 cliente_id INT,
 creacion DATETIME,
 producto VARCHAR(50),
-Precio DOUBLE,
+precio_producto int,
+precio_total_venta int,
 FOREIGN KEY (cliente_id) REFERENCES CLIENTE(id)
 );
