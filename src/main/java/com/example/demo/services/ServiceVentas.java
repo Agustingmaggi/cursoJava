@@ -13,6 +13,7 @@ import java.util.UUID;
 
 @Service
 public class ServiceVentas {
+
     @Autowired
     private RepositoryCliente repositoryCliente;
 
@@ -22,15 +23,12 @@ public class ServiceVentas {
     @Autowired
     private RepositoryVentas repositoryVentas;
 
-    public List<ModeloVentas> findAll(){
-        return  repositoryVentas.findAll();
+    public List<ModeloVentas> findAll() {
+        return repositoryVentas.findAll();
     }
-    public void guardarVenta(ModeloVentas venta) {
-        // Generar un identificador único para la venta
-        String idVentaUnica = UUID.randomUUID().toString();
 
-        // Asignar el mismo identificador único a todas las líneas de la venta
-        venta.setId_venta_unica(idVentaUnica);
+
+    public void guardarVenta(ModeloVentas venta) {
 
         // Obtener el nombre del producto y la cantidad desde el cuerpo de la solicitud (request body)
         String nombreProducto = venta.getProducto();
@@ -44,39 +42,31 @@ public class ServiceVentas {
             int precioProducto = producto.getPrecio().intValue();
             int precioTotalVenta = precioProducto * cantidad;
 
-            // Actualizar el precio_total_venta sumando el precio total de esta venta al valor existente
-            int precioTotalVentaExistente = venta.getPrecio_total_venta() != null ? venta.getPrecio_total_venta() : 0;
-            int precioTotalVentaFinal = precioTotalVentaExistente + precioTotalVenta;
-
-            // Asignar los valores calculados a la venta
-            venta.setPrecio_producto(precioProducto);
-            venta.setPrecio_total_venta(precioTotalVentaFinal);
+            venta.setPrecio_total_venta(precioTotalVenta);
 
             // Guardar la venta en la base de datos
             repositoryVentas.save(venta);
+
 
         } else {
             // Manejar la situación donde el producto no existe o no tiene precio
             throw new RuntimeException("El producto con nombre " + nombreProducto + " no existe o no tiene un precio asociado.");
             // Puedes lanzar una excepción específica o manejar el error de otra manera según tus necesidades
         }
-
     }
-        private int actualizarSumaTotalVentas() {
-            List<ModeloVentas> ventas = repositoryVentas.findAll();
+    private void actualizarSumaTotalVentas() {
+        // Obtener la lista completa de ventas desde el repositorio
+        List<ModeloVentas> todasLasVentas = repositoryVentas.findAll();
 
-            // Inicializar la suma en 0
-            int sumaTotalVentas = 0;
-
-            // Sumar los valores de valor_total_venta de cada venta
-            for (ModeloVentas venta : ventas) {
-                Integer valorTotalVenta = venta.getPrecio_total_venta();
-                if (valorTotalVenta != null) {
-                    sumaTotalVentas += valorTotalVenta;
-                }
-
-            }
-            sumaTotalVentas = actualizarSumaTotalVentas();
-            return sumaTotalVentas;
+        // Calcular la suma total de todas las ventas
+        int sumaTotalVentas = todasLasVentas.stream()
+                .mapToInt(ModeloVentas::getPrecio_total_venta)
+                .sum();
+        // Asignar la suma total al último objeto de venta (puedes ajustar según tu lógica)
+        if (!todasLasVentas.isEmpty()) {
+            ModeloVentas ultimaVenta = todasLasVentas.get(todasLasVentas.size() - 1);
+            ultimaVenta.setPrecio_total_venta(sumaTotalVentas);
+            repositoryVentas.save(ultimaVenta); // Guardar la actualización en la base de datos
         }
-        }
+    }
+}

@@ -18,11 +18,6 @@ public class ModeloVentas {
     @Column
     @Getter
     @Setter
-    private String id_venta_unica;
-
-    @Column
-    @Getter
-    @Setter
     private Integer cliente_id;
 
     @Column
