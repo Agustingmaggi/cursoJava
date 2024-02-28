@@ -4,44 +4,33 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "ventas")
+@Table(name ="ventas")
 public class ModeloVentas {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
+    @Getter @Setter
     private Long id;
 
     @Column
-    @Getter
-    @Setter
+    @Getter @Setter
     private Integer cliente_id;
 
     @Column
-    @Getter
-    @Setter
+    @Getter @Setter
     private Date creacion;
 
-    @Column
-    @Getter
-    @Setter
-    private String producto;
+    // Relación con ModeloDetalleVenta
+    @OneToMany(mappedBy ="venta", cascade = CascadeType.ALL)
+    @Getter @Setter
+    private List<ModeloDetalleVenta> detallesVenta = new ArrayList<>();
 
     @Column
-    @Getter
-    @Setter
-    private Integer cantidad;
-
-    @Column
-    @Getter
-    @Setter
-    private Integer precio_producto;
-
-    @Column
-    @Getter
-    @Setter
+    @Getter @Setter
     private Integer precio_total_venta;
 }

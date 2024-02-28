@@ -5,21 +5,27 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "ventasDetalle")
+@Table(name ="ventasDetalle")
 public class ModeloDetalleVenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
+    @Getter @Setter
     private Long id;
 
-    @Column
-    @Getter
-    @Setter
-    private Integer cliente_id;
+    @ManyToOne
+    @JoinColumn(name ="venta_id", referencedColumnName ="id")
+    @Getter @Setter
+    private ModeloVentas venta;
 
     @Column
-    @Getter
-    @Setter
+    @Getter @Setter
+    private Long producto_id;
+
+    @Column
+    @Getter @Setter
+    private Integer cantidad;
+
+    @Column
+    @Getter @Setter
     private Integer precio_final;
 }
