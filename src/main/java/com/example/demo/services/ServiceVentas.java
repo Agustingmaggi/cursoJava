@@ -9,6 +9,8 @@ import com.example.demo.repository.RepositoryVentas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,12 +25,20 @@ public class ServiceVentas {
     @Autowired
     private RepositoryVentas repositoryVentas;
 
+    @Autowired
+    private TimeService timeService;
+
     public List findAll() {
         return repositoryVentas.findAll();
     }
 
     public void guardarVenta(ModeloVentas venta) {
         int precioTotalVenta = 0;
+
+
+        String fechaActual = timeService.getHoraActual();
+
+        venta.setCreacion(fechaActual);
 
         for (ModeloDetalleVenta detalle : venta.getDetallesVenta()) {
             ModeloProducto producto = repositoryProducto.findById(detalle.getProducto_id()).orElse(null);

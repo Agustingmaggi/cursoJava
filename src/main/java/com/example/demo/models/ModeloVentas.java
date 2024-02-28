@@ -23,7 +23,7 @@ public class ModeloVentas {
 
     @Column
     @Getter @Setter
-    private Date creacion;
+    private String creacion;
 
     // Relación con ModeloDetalleVenta
     @OneToMany(mappedBy ="venta", cascade = CascadeType.ALL)
@@ -33,4 +33,5 @@ public class ModeloVentas {
     @Column
     @Getter @Setter
     private Integer precio_total_venta;
+
 }
