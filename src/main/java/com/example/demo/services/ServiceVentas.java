@@ -45,6 +45,7 @@ public class ServiceVentas {
 
             if (producto != null) {
                 int precioDetalle = producto.getPrecio().intValue() * detalle.getCantidad();
+                System.out.println(precioDetalle); //en esta linea y la siguiente esta el tema, no puedo sumar los 2 precios detalles.
                 detalle.setPrecio_final(precioDetalle);
                 precioTotalVenta += precioDetalle;
             } else {

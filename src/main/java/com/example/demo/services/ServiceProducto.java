@@ -14,4 +14,8 @@ public class ServiceProducto {
     private RepositoryProducto repository;
 
     public List<ModeloProducto> findAll() { return repository.findAll();}
+
+    public void guardarProducto(ModeloProducto producto) {
+        repository.save(producto);
+    }
 }

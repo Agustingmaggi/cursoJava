@@ -44,6 +44,17 @@ public class ControllerCliente {
                 });
     }
 
+    //El siguiente put lo hgo para probar algo que se ve en la clase workshop dsp de la clase 8
+
+    @PutMapping("prueba/{id}")
+    public ModeloCliente update(@PathVariable Long id, @RequestBody ModeloCliente cliente){
+        ModeloCliente updateClient = repo.findById(id).get();//por alguna razon usamos repo para buscar por id
+        System.out.println(updateClient);
+        updateClient.setNombre(cliente.getNombre()); //por alguna razon aca se usa cliente para llegar al modelo (sigue abajo)
+        repo.save(updateClient); // mientras que aca se usa repo para guardar data en el modelo.
+        return updateClient;
+    }
+
     @DeleteMapping("/{id}")
     public void deleteCliente(@PathVariable Long id) {
         repo.deleteById(id);
